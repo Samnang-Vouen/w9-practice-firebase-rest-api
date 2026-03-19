@@ -40,12 +40,15 @@ class LibraryViewModel extends ChangeNotifier {
       // 3- Fetch is unsucessfull
       songsValue = AsyncValue.error(e);
     }
-     notifyListeners();
-
+    notifyListeners();
   }
 
   bool isSongPlaying(Song song) => playerState.currentSong == song;
 
   void start(Song song) => playerState.start(song);
   void stop(Song song) => playerState.stop();
+  Future<void> likeSong(Song song) async {
+    await songRepository.likeSong(song.id, song.likes);
+    fetchSong();
+  }
 }

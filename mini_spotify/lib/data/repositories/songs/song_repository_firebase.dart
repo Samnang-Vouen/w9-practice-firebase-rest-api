@@ -7,8 +7,10 @@ import '../../dtos/song_dto.dart';
 import 'song_repository.dart';
 
 class SongRepositoryFirebase extends SongRepository {
-  final Uri songsUri = Uri.https('w9-practice-firebase-rest-api-default-rtdb.asia-southeast1.firebasedatabase.app',
-  '/songs.json');
+  final Uri songsUri = Uri.https(
+    'w9-practice-firebase-rest-api-default-rtdb.asia-southeast1.firebasedatabase.app',
+    '/songs.json',
+  );
 
   @override
   Future<List<Song>> fetchSongs() async {
@@ -18,12 +20,22 @@ class SongRepositoryFirebase extends SongRepository {
       // 1 - Send the retrieved list of songs
       Map<String, dynamic> songJson = json.decode(response.body);
       return songJson.entries
-        .map((entry) => SongDto.fromJson(entry.key, entry.value))
-        .toList();
+          .map((entry) => SongDto.fromJson(entry.key, entry.value))
+          .toList();
     } else {
       // 2- Throw expcetion if any issue
       throw Exception('Failed to load posts');
     }
+  }
+
+  @override
+  Future<void> likeSong(String id, int currentLikes) async {
+    final Uri likeUri = Uri.https(
+      'w9-practice-firebase-rest-api-default-rtdb.asia-southeast1.firebasedatabase.app',
+      '/songs/$id.json',
+    );
+
+    await http.patch(likeUri, body: json.encode({'likes': currentLikes + 1}));
   }
 
   @override
