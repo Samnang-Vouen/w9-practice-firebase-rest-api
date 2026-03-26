@@ -1,16 +1,14 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:mini_spotify/data/config/firebase_config.dart';
 
 import '../../../model/songs/song.dart';
 import '../../dtos/song_dto.dart';
 import 'song_repository.dart';
 
 class SongRepositoryFirebase extends SongRepository {
-  final Uri songsUri = Uri.https(
-    'w9-practice-firebase-rest-api-default-rtdb.asia-southeast1.firebasedatabase.app',
-    '/songs.json',
-  );
+  final Uri songsUri = FirebaseConfig.baseUrl.replace(path: '/songs.json');
 
   @override
   Future<List<Song>> fetchSongs() async {
@@ -30,10 +28,7 @@ class SongRepositoryFirebase extends SongRepository {
 
   @override
   Future<void> likeSong(String id, int currentLikes) async {
-    final Uri likeUri = Uri.https(
-      'w9-practice-firebase-rest-api-default-rtdb.asia-southeast1.firebasedatabase.app',
-      '/songs/$id.json',
-    );
+    final Uri likeUri = FirebaseConfig.baseUrl.replace(path: '/songs/$id.json');
 
     await http.patch(likeUri, body: json.encode({'likes': currentLikes + 1}));
   }

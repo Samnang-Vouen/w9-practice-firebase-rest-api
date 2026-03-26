@@ -1,15 +1,13 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:mini_spotify/data/config/firebase_config.dart';
 import 'package:mini_spotify/data/dtos/artist_dto.dart';
 import 'package:mini_spotify/data/repositories/artists/artist_repository.dart';
 import 'package:mini_spotify/model/artists/artist.dart';
 
 class ArtistRepositoryFirebase extends ArtistRepository {
-  final Uri artistUri = Uri.https(
-    'w9-practice-firebase-rest-api-default-rtdb.asia-southeast1.firebasedatabase.app',
-    '/artists.json',
-  );
+  final Uri artistUri = FirebaseConfig.baseUrl.replace(path: '/artists.json');
 
   @override
   Future<List<Artist>> fetchArtists() async {
