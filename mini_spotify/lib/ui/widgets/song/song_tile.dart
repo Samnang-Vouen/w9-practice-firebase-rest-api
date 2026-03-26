@@ -6,12 +6,16 @@ class SongTile extends StatelessWidget {
   const SongTile({
     super.key,
     required this.song,
+    required this.artistName,
+    required this.artistGenre,
     required this.isPlaying,
     required this.onTap,
     required this.onLike,
   });
 
   final Song song;
+  final String artistName;
+  final String artistGenre;
   final bool isPlaying;
   final VoidCallback onTap;
   final VoidCallback onLike;
@@ -36,11 +40,18 @@ class SongTile extends StatelessWidget {
             ),
           ),
           title: Text(song.title),
-          subtitle: Row(
+          subtitle: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Text('${song.duration.inMinutes} mins'),
-              SizedBox(width: 20),
-              Text('${song.likes} likes'),
+              Row(
+                children: [
+                  Text('${song.duration.inMinutes} mins'),
+                  SizedBox(width: 20),
+                  Text('${song.likes} likes'),
+                  SizedBox(width: 20),
+                  Text('$artistName - $artistGenre'),
+                ],
+              ),
             ],
           ),
           trailing: Row(

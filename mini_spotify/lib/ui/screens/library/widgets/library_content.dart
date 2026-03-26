@@ -35,6 +35,8 @@ class LibraryContent extends StatelessWidget {
           itemCount: songs.length,
           itemBuilder: (context, index) => SongTile(
             song: songs[index],
+            artistName: mv.getArtistName(songs[index]),
+            artistGenre: mv.getArtistGenre(songs[index]),
             isPlaying: mv.isSongPlaying(songs[index]),
             onTap: () {
               mv.start(songs[index]);
