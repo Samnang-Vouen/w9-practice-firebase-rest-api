@@ -42,8 +42,14 @@ class LibraryViewModel extends ChangeNotifier {
 
     try {
       // 2- Fetch is successfull
-      List<Song> songs = await songRepository.fetchSongs();
-      List<Artist> artists = await artistRepository.fetchArtists();
+      // Use Future.wait to fetch both simultaneously 
+      final results = await Future.wait([
+        songRepository.fetchSongs(),
+        artistRepository.fetchArtists(),
+      ]);
+
+      List<Song> songs = results[0] as List<Song>;
+      List<Artist> artists = results[1] as List<Artist>;
 
       for (final artist in artists) {
         artistById[artist.id] = artist;
